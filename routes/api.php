@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/cs', 'CsController@store');
+Route::post('/product' ,'ProductController@store');
+Route::post('/orders' ,'OrdersController@store');
+Route::post('/login' , 'LoginController@store');
