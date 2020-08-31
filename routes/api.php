@@ -18,7 +18,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/cs', 'CsController@show');
 Route::post('/cs', 'CsController@store');
+
+Route::get('/product' ,'ProductController@show');
 Route::post('/product' ,'ProductController@store');
+
+Route::get('/orders' ,'OrdersController@show');
 Route::post('/orders' ,'OrdersController@store');
+
+Route::get('/login', 'LoginController@show');
 Route::post('/login' , 'LoginController@store');

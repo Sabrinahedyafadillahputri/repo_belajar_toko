@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Validator;
 
 class CsController extends Controller
 {
+	public function show()
+	{
+		return Cs::all();
+	}
 	public function store(Request $request)
 	{
 		$validator=Validator::make($request->all(),
