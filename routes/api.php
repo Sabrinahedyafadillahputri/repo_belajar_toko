@@ -23,11 +23,16 @@ Route::post('/cs', 'CsController@store');
 
 Route::get('/product' ,'ProductController@show');
 Route::post('/product' ,'ProductController@store');
+Route::put('/product/{id}' ,'ProductController@update');
+Route::delete('/orders/{id}', 'ProductController@destroy');
 
 Route::get('/orders' ,'OrdersController@show');
 Route::get('/orders/{id}' ,'OrdersController@detail');
 Route::post('/orders' ,'OrdersController@store');
 Route::put('/orders/{id}' ,'OrdersController@update');
+Route::delete('/orders/{id}', 'OrdersController@destroy');
 
 Route::get('/login', 'LoginController@show');
 Route::post('/login' , 'LoginController@store');
+Route::put('/orders/{id}' ,'LoginController@update');
+Route::delete('/orders/{id}', 'LoginController@destroy');
