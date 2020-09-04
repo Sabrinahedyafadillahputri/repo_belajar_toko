@@ -41,5 +41,28 @@ class LoginController extends Controller
 		else {
 			return Response()->json(['status'=> 0]);
 		}
-	}    
+	public function update($id, Request $request)
+	{
+		$validator=Validator::make($request->all(),
+			[
+				'nama_cs'  => 'required',
+				'password' => 'required',
+				'id_cs'	   => 'required'
+			]);
+		if($validator->fails()) {
+			return Response()->json($validator->errors());
+		}
+		$ubah =Login::where('id', $id)->update([
+			'nama_cs'  => $request->nama_cs,
+			'password' => $request->password,
+			'id_cs'    => $request->id_cs
+		]);
+
+		if($ubah) {
+			return Response()->json(['status' => 1]);
+		}
+		else {
+			return Response()->json(['status' => 0]);
+		}
+	}   
 }

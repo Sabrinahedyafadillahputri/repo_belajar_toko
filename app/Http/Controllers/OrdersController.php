@@ -14,29 +14,32 @@ class OrdersController extends Controller
 		                       ->join('product', 'orders.id_p', 'product.id_p')
 		                       ->select('orders.id',
 		                   				'orders.tanggal_order',
-		                   				'cs.nama_cs',
-		                   				'product.nama_produk',
 		                   				'orders.jml_pesanan',
 		                   				'orders.total_harga')
 		                       ->get();
 		return Response()->json($data_orders);
 
 	}
+	public function detail($id)
+	{
+		if(Orders::where('id', $id)->exists()) {
+			$data_orders= Orders::join('cs', 'orders.id_cs', 'cs.id_cs')
+									->join('product', 'orders.id_p', 'product.id_p')
+									->where('orders.id', '=', $id)
+									->get();
 
-	//public function detail($id)
-	//{
-		//if(Orders::where('id', $id)->exists()) {
-			//$data_orders = Orders::join('cs','cs.id_cs','orders.id_cs',)
-		//}
-	//}
+			return Response()->json($data_orders);
+		}
+		else{
+			return Response()->json(['message' => 'tidak ditemukan']);
+		}
+	}
 
 	public function store(Request $request)
 	{
 		$validator=Validator::make($request->all(),
 			[
-				'nama_cs'       => 'required',
 				'tanggal_order' => 'required',
-				'nama_produk'   => 'required',
 				'jml_pesanan'   => 'required',
 				'total_harga'   => 'required',
 				'id_cs'			=> 'required',
@@ -49,9 +52,7 @@ class OrdersController extends Controller
 		}   
 
 		$simpan = Orders::create([
-			'nama_cs'       => $request->nama_cs,
 			'tanggal_order' => $request->tanggal_order,
-			'nama_produk'   => $request->nama_produk,
 			'jml_pesanan'   => $request->jml_pesanan,
 			'total_harga'   => $request->total_harga,
 			'id_cs'			=> $request->id_cs,
@@ -63,6 +64,36 @@ class OrdersController extends Controller
 		}
 		else {
 			return Response()->json(['status'=> 0]);
+		}
+	}
+	public function update($id, Request $request)
+	{
+		$validator=Validator::make($request->all(),
+			[
+				'tanggal_order' => 'required',
+				'jml_pesanan' 	=> 'required',
+				'total_harga' 	=> 'required',
+				'id_cs' 		=> 'required',
+				'id_p' 			=> 'required'
+			]
+		);
+
+		if($validator->fails()) {
+			return Response()->json($validator->errors());
+		}
+
+		$ubah = Orders::where('id',$id)->update([
+			'tanggal_order' => $request->tanggal_order,
+			'jml_pesanan'   => $request->jml_pesanan,
+			'total_harga'   => $request->total_harga,
+			'id_cs'			=> $request->id_cs,
+			'id_p'			=> $request->id_p
+		]);
+		if($ubah) {
+			return Response()->json(['status' => 1]);
+		}
+		else {
+			return Response()->json(['status' => 0]);
 		}
 	}
 }
