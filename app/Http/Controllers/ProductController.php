@@ -42,7 +42,7 @@ class ProductController extends Controller
 	}
 	public function update($id, Request $request)
 	{
-		$validator=Validator::nake($request->all()),
+		$validator=Validator::make($request->all(),
 		[
 			'nama_produk'     => 'required',
 			'kode_produksi'   => 'required',
@@ -53,7 +53,7 @@ class ProductController extends Controller
 			return Response()->json($validator->errors());
 		}
 
-		$ubah = Product::where('id', $id)->update([
+		$ubah = Product::where('id_p', $id)->update([
 			'nama_produk'     => $request->nama_produk,
 			'kode_produksi'   => $request->kode_produksi,
 			'kadaluarsa'      => $request->kadaluarsa
@@ -68,7 +68,7 @@ class ProductController extends Controller
 	}
 	public function destroy($id)
 	{
-		$hapus = Product::where('id', $id)->delete();
+		$hapus = Product::where('id_p', $id)->delete();
 		if($hapus) {
 			return Response()->json(['status' => 1]);
 		}

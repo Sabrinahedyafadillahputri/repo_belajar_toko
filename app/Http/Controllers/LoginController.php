@@ -41,6 +41,7 @@ class LoginController extends Controller
 		else {
 			return Response()->json(['status'=> 0]);
 		}
+	}
 	public function update($id, Request $request)
 	{
 		$validator=Validator::make($request->all(),
@@ -52,7 +53,7 @@ class LoginController extends Controller
 		if($validator->fails()) {
 			return Response()->json($validator->errors());
 		}
-		$ubah =Login::where('id', $id)->update([
+		$ubah =Login::where('id_login', $id)->update([
 			'nama_cs'  => $request->nama_cs,
 			'password' => $request->password,
 			'id_cs'    => $request->id_cs
@@ -67,7 +68,7 @@ class LoginController extends Controller
 	}
 	public function destroy($id)
 	{
-		$hapus = Login::where('id', $id)->delete();
+		$hapus = Login::where('id_login', $id)->delete();
 		if($hapus) {
 			return Response()->json(['status' => 1]);
 		}
