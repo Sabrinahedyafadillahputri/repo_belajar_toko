@@ -16,6 +16,9 @@ class CreateCsTable extends Migration
         Schema::create('cs', function (Blueprint $table) {
             $table->bigIncrements('id_cs');
             $table->string('nama_cs');
+            $table->enum('gender',['L','P']);
+            $table->date('tanggal_lahir');
+            $table->text('alamat');
         });
     }
 

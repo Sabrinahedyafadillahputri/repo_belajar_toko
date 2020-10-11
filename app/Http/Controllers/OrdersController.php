@@ -10,9 +10,7 @@ class OrdersController extends Controller
 {
 	public function show()
 	{
-		$data_orders = Orders::join('cs', 'orders.id_cs', 'cs.id_cs')
-		                       ->join('product', 'orders.id_p', 'product.id_p')
-		                       ->select('orders.id',
+		$data_orders = Orders::select('orders.id',
 		                   				'orders.tanggal_order',
 		                   				'orders.jml_pesanan',
 		                   				'orders.total_harga')
@@ -25,6 +23,7 @@ class OrdersController extends Controller
 		if(Orders::where('id', $id)->exists()) {
 			$data_orders= Orders::join('cs', 'orders.id_cs', 'cs.id_cs')
 									->join('product', 'orders.id_p', 'product.id_p')
+									->select('nama_cs','gender', 'alamat', 'tanggal_order', 'jml_pesanan', 'total_harga', 'nama_produk', 'kode_produksi','kadaluarsa')
 									->where('orders.id', '=', $id)
 									->get();
 
@@ -90,20 +89,20 @@ class OrdersController extends Controller
 			'id_p'			=> $request->id_p
 		]);
 		if($ubah) {
-			return Response()->json(['status' => 1]);
+			return Response()->json(['status' => 'sukses']);
 		}
 		else {
-			return Response()->json(['status' => 0]);
+			return Response()->json(['status' => 'gagal']);
 		}
 	}
 	public function destroy($id)
 	{
 		$hapus = Orders::where('id', $id)->delete();
 		if($hapus) {
-			return Response()->json(['status' => 1]);
+			return Response()->json(['status' => 'sukses']);
 		}
 		else {
-			return Response()->json(['status' => 0]);
+			return Response()->json(['status' => 'gagal']);
 		}
 	}
 }

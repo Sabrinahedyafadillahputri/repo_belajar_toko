@@ -33,6 +33,7 @@ class UserController extends Controller
     		'name'	   => 'required|string|max:255',
     		'email'	   => 'required|string|email|max:255|unique:users',
     		'password' => 'required|string|min:6|confirmed',
+    		'type'	   => 'required|integer'
     	]);
 
     	if($validator->fails()){
@@ -40,9 +41,10 @@ class UserController extends Controller
     	}
 
     	$user = User::create([
-    		'name' => $request->get('name'),
-    		'email' => $request->get('email'),
-    		'password' => Hash::make($request->get('password')),
+    		'name' 		=> $request->get('name'),
+    		'email'		=> $request->get('email'),
+    		'password'  => Hash::make($request->get('password')),
+    		'type'		=> $request->get('type'),
     	]);
 
     	$token = JWTAuth::fromUser($user);
@@ -60,7 +62,7 @@ class UserController extends Controller
     	}
     	catch (Tymon\JWTAuth\Exceptions\TokenExpiredException $e)
     	{
-    		return response()->json(['roken_expired'], $e->getStatusCode());
+    		return response()->json(['token_expired'], $e->getStatusCode());
     	}
     	catch (Tymon\JWTAuth\Exceptions\TokenInvalidException $e)
     	{

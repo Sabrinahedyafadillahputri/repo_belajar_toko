@@ -9,5 +9,5 @@ class Cs extends Model
     protected $table ='cs';
     public $timestamps = false;
 
-    protected $fillable = ['nama_cs'];
+    protected $fillable = ['nama_cs', 'gender', 'tanggal_lahir', 'alamat'];
 }

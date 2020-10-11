@@ -11,8 +11,25 @@ class ProductController extends Controller
 
 	public function show()
 	{
-		return Product::all();
+		$data_orders = Product::select('id_p','nama_produk')
+		                ->get();
+		return Response()->json($data_orders);
+
 	}
+	public function detail($id)
+	{
+		if(Product::where('id_p', $id)->exists()) {
+			$data_product= Product::select('id_p','nama_produk', 'kode_produksi', 'kadaluarsa')
+							->where('product.id_p', '=', $id)
+							->get();
+
+			return Response()->json($data_product);
+		}
+		else{
+			return Response()->json(['message' => 'tidak ditemukan']);
+		}
+	}
+	
     public function store(Request $request)
 	{
 		$validator=Validator::make($request->all(),
@@ -60,20 +77,20 @@ class ProductController extends Controller
 		]);
 		
 		if($ubah){
-			return Response()->json(['status' => 1]);
+			return Response()->json(['status' => 'sukses']);
 		}
 		else {
-			return Response()->json(['status' => 0]);
+			return Response()->json(['status' => 'gagal']);
 		}
 	}
 	public function destroy($id)
 	{
 		$hapus = Product::where('id_p', $id)->delete();
 		if($hapus) {
-			return Response()->json(['status' => 1]);
+			return Response()->json(['status' => 'sukses']);
 		}
 		else {
-			return Response()->json(['status' => 0]);
+			return Response()->json(['status' => 'gagal']);
 		}
 	}
 }
